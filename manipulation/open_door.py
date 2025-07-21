@@ -302,14 +302,3 @@ class OpenDoorManipulation(BaseManipulation) :
                     else:
                         self.env.action_chosen[env_id, t] = 'y'
                         return 'y'
-
-    def action_process(self, pose):
-        quat = pose[:,3:7]
-        rotate_matix = tf.quaternion_to_matrix(quat)
-        rotate_6d = tf.matrix_to_rotation_6d(rotate_matix)
-        return torch.cat([pose[:,:3], rotate_6d], dim=-1)
-
-    def rotate_6d_to_quat(self, rotate_6d):
-        rotate_matix = tf.rotation_6d_to_matrix(rotate_6d)
-        quat = tf.matrix_to_quaternion(rotate_matix)
-        return quat

@@ -305,18 +305,6 @@ class OpenPenManipulation(BaseManipulation) :
             os.makedirs(save_dir, exist_ok=True)
             demo_buffer.save(save_path)
 
-
-    def action_process(self, pose):
-        quat = pose[:,3:7]
-        rotate_matix = tf.quaternion_to_matrix(quat)
-        rotate_6d = tf.matrix_to_rotation_6d(rotate_matix)
-        return torch.cat([pose[:,:3], rotate_6d], dim=-1)
-
-    def rotate_6d_to_quat(self, rotate_6d):
-        rotate_matix = tf.rotation_6d_to_matrix(rotate_6d)
-        quat = tf.matrix_to_quaternion(rotate_matix)
-        return quat
-
     def succ_policy(self, env_id):
         clock_wise = self.env.clock_wise[env_id]
         open_flag = self.env.open_bottle_stage[env_id]

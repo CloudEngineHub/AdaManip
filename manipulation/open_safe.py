@@ -208,18 +208,6 @@ class OpenSafeManipulation(BaseManipulation) :
             succ_cnt = 0
         print(f"Average Success rate: {np.mean(succ_rate)}")
         print(f"Success rate std: {np.std(succ_rate)}")
-
-        
-    def action_process(self, pose):
-        quat = pose[:,3:7]
-        rotate_matix = tf.quaternion_to_matrix(quat)
-        rotate_6d = tf.matrix_to_rotation_6d(rotate_matix)
-        return torch.cat([pose[:,:3], rotate_6d], dim=-1)
-
-    def rotate_6d_to_quat(self, rotate_6d):
-        rotate_matix = tf.rotation_6d_to_matrix(rotate_6d)
-        quat = tf.matrix_to_quaternion(rotate_matix)
-        return quat
     
     def process_data(self, goal_pos):
         obs = self.env.collect_diff_data()
